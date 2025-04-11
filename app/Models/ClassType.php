@@ -13,4 +13,9 @@ class ClassType extends Model
     {
         return $this->hasMany(ScheduleClass::class);
     }
+
+    public function membrBookings()
+    {
+        return $this->belongsToMany(User::class, 'bookings');
+    }
 }

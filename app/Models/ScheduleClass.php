@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ScheduleClass extends Model
 {
     use HasFactory;
+    protected $guarded = null;
+
+    protected $casts = [
+        'date_time' => 'datetime',
+    ];
 
     public function instructor()
     {
@@ -17,5 +22,10 @@ class ScheduleClass extends Model
     public function classType()
     {
         return $this->belongsTo(ClassType::class);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'bookings');
     }
 }

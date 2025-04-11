@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
@@ -22,9 +23,21 @@ Route::get('/', function () {
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/member/dashboard', function () {
-    return view('member.dashboard');
-})->middleware(['auth', 'role:member'])->name('member.dashboard');
+// Route::get('/member/dashboard', function () {
+//     return view('member.dashboard');
+// })->middleware(['auth', 'role:member'])->name('member.dashboard');
+
+Route::middleware(['auth', 'role:member'])->prefix('member')->group(function ()
+{
+    Route::get('/dashboard', function () {
+        return view('member.dashboard');
+    })->name('member.dashboard');
+
+    Route::get('/book',[BookingController::class,'create'])->name('booking.create');
+    Route::post('/book',[BookingController::class,'store'])->name('booking.store');
+    Route::get('/bookings',[BookingController::class,'index'])->name('booking.index');
+    Route::delete('/bookings/{id}',[BookingController::class,'destroy'])->name('booking.destroy');
+});
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
