@@ -30,7 +30,7 @@
                             {{ __('Book a Class') }}
                         </x-nav-link>
                         <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">
-                            {{ __('Upcoming Classes') }}
+                            {{ __('Booked Classes') }}
                         </x-nav-link>
                     @endcan
                 </div>

@@ -10,9 +10,10 @@ class BookingController extends Controller
 {
     public function create()
     {
-        $scheduleClasses = ScheduleClass::where('date_time','>', now())
+        $scheduleClasses = ScheduleClass::upcoming()
             ->with('classType', 'instructor')
-            ->oldest()
+            ->notBooked()
+            ->oldest('date_time')
             ->get();
         return view('member.book')->with('scheduleClasses', $scheduleClasses);
     }
@@ -25,12 +26,13 @@ class BookingController extends Controller
 
     public function index()
     {
-        $bookings = Auth::user()->bookings()->where('date_time', '>', now())->get();
+        $bookings = Auth::user()->bookings()->upcoming()->get();
         return view('member.upcoming')->with('bookings', $bookings);
     }
 
     public function destroy(int $id)
     {
         Auth::user()->bookings()->detach($id);
+        return redirect()->route('booking.index');
     }
 }

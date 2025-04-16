@@ -17,7 +17,7 @@ class ScheduleController extends Controller
     {
         $scheduleClasses = auth()->user()
                 ->scheduleClasses()
-                ->where('date_time' , '>' , now())
+                ->upcoming()
                 ->oldest('date_time')
                 ->get();
         
