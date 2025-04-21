@@ -12,7 +12,7 @@ class IncrementDate extends Command
      *
      * @var string
      */
-    protected $signature = 'app:increment-date {--days=1}';
+    protected $signature = 'app:increment-date {--days=10}';
 
     /**
      * The console command description.

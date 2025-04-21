@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\ClassType;
-use App\Models\ScheduleClass;
 use App\Models\User;
+use App\Models\ClassType;
+use Illuminate\Http\Request;
+use App\Models\ScheduleClass;
+use App\Events\ClassCancelled;
 use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
@@ -60,7 +61,9 @@ class ScheduleController extends Controller
         {
             abort(403);
         }
-        $schedule->delete();
+        ClassCancelled::dispatch($schedule);
+        // $schedule->delete();
+        // $schedule->members()->detach();
         return redirect()->route('schedule.index');
     }
 }
