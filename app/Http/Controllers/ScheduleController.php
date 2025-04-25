@@ -62,8 +62,9 @@ class ScheduleController extends Controller
             abort(403);
         }
         ClassCancelled::dispatch($schedule);
-        // $schedule->delete();
-        // $schedule->members()->detach();
+        
+        $schedule->members()->detach();
+        $schedule->delete();
         return redirect()->route('schedule.index');
     }
 }

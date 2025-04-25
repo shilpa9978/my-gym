@@ -7,14 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ClassCancelledNotification extends Notification
+class RemindMembersNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public Array $details)
+    public function __construct()
     {
         //
     }
@@ -35,12 +35,11 @@ class ClassCancelledNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Sorry your class was cancelled')
-                    ->greeting('Hey, '.$notifiable->name)
-                    ->line('Sorry to inform you that your '.$this->details['className'].' class on '.$this->details['classDateTime']->format('jS F').' at '.$this->details['classDateTime']->format('g:i a').' has been cancelled by the instructor')
-                    ->action('Book a class', url('/member/book'))
-                    ->line('Thank you for using our application.');
-                    
+                    ->subject('Forgot to book a class?')
+                    ->greeting('Hello ' . $notifiable->name . ',')
+                    ->line('Looks like a you dont have any upcoming bookings.')
+                    ->action('book', url('/member/book'))
+                    ->line('Thank you');
     }
 
     /**
